@@ -4,6 +4,12 @@ import {connect} from "react-redux";
 import fetchUser from '../api/fetchUser';
 import FETCH_STATUS from "../constants/fetchStatuses";
 import NetworkError from './NetworkError';
+import Input from './Input';
+import Navbar from './Navbar';
+import Preloader from './Preloader';
+import NotFound from './NotFound';
+import '../styles/User.css';
+import profile from '../images/profile.png';
 
 class User extends React.Component {
     state = {
@@ -13,32 +19,25 @@ class User extends React.Component {
     render () {
         return (
             <div>
+                <Navbar img={profile}>{this.props.login || "Search for GitHub users"}</Navbar>
                 <NetworkError/>
-                <div>
-                    <input onChange={e => this.setState({search: e.target.value})} value={this.state.search} />
-                    <button onClick={this.onClickSearch.bind(this)}>GET</button>
+                <div style={{marginTop: '75px'}}>
+                    <Input label="Search" onChange={value => this.setState({search: value})} value={this.state.search} onSubmit={this.onClickSearch.bind(this)}/>
+                    {this.props.status === FETCH_STATUS.FETCHING && <Preloader/>}
+                    {this.props.status === FETCH_STATUS.NOT_FOUND && <NotFound/>}
+                    {this.props.profile && (
+                        <div className="user_container">
+                            <img className="user_img" src={this.props.profile.img}/>
+
+                            <div className="user_info_container">
+                                <h2 className="user_name">{this.props.profile.name}</h2>
+                                <h3 className="user_login">{"Login: " + this.props.login}</h3>
+                                <p className="user_bio">{this.props.profile.bio || ""}</p>
+                                <Link className="user_repos" to={`/${this.props.login}/repositories`}><span>{"Repositories: " + this.props.profile.public_repos}</span></Link>
+                            </div>
+                        </div>
+                    )}
                 </div>
-                {this.props.profile && (
-                    <div>
-                        <h1>{"User: " + this.props.login}</h1>
-
-                        <img src={this.props.profile.img}/>
-
-                        <p>{"Name: " + this.props.profile.name}</p>
-                        <Link to={`/${this.props.login}/repositories`}><p>{"Repositories: " + this.props.profile.public_repos}</p></Link>
-                        <p>{"Bio: " + (this.props.profile.bio || "")}</p>
-                    </div>
-                )}
-                {this.props.status === FETCH_STATUS.FETCHING && (
-                    <div>
-                        <h1>Loading...</h1>
-                    </div>
-                )}
-                {this.props.status === FETCH_STATUS.NOT_FOUND && (
-                    <div>
-                        <h1>User not found</h1>
-                    </div>
-                )}
             </div>
         );
     }
@@ -49,6 +48,7 @@ class User extends React.Component {
     }
 
     onClickSearch () {
+        window.history.pushState('React App', 'React App', '/' + this.state.search);
         this.props.fetchUser(this.state.search);
     }
 }

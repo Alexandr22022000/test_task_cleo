@@ -6,6 +6,13 @@ import userSetLogin from '../actions/userSetLogin';
 import repositoriesClean from '../actions/repositoriesClean';
 import FETCH_STATUS from "../constants/fetchStatuses";
 import NetworkError from './NetworkError';
+import Input from './Input';
+import Navbar from './Navbar';
+import Preloader from './Preloader';
+import NotFound from './NotFound';
+import Checkbox from './Checkbox';
+import '../styles/Repositories.css';
+import arrow from '../images/arrow.png';
 
 class Repositories extends React.Component {
     state = {
@@ -16,21 +23,21 @@ class Repositories extends React.Component {
     render () {
         return (
             <div>
+                <Link to={"/" + this.props.login}>
+                    <Navbar img={arrow}>{this.props.login}</Navbar>
+                </Link>
                 <NetworkError/>
-                <Link to={"/" + this.props.login}><button>Back</button></Link>
 
-                <h1>{"Repositories of " + this.props.login}</h1>
-
-                <div>
-                    <label>
-                        <input type="checkbox" onClick={() => this.setState({sortByStars: !this.state.sortByStars})} checked={this.state.sortByStars}/>
-                        Sort by stars
-                    </label>
-
-                    <input onChange={e => this.setState({filter: e.target.value})} value={this.state.filter}/>
+                <div style={{marginTop: '75px'}}>
+                    <Input label="Filter" onChange={value => this.setState({filter: value})} value={this.state.filter}/>
+                    <Checkbox onChange={value => this.setState({sortByStars: value})} value={this.state.sortByStars}/>
 
                     <table>
                         <tbody>
+                        <tr>
+                            <td>Name</td>
+                            <td>Stars</td>
+                        </tr>
                         {this.getRepositories().map(repo => (
                             <tr>
                                 <td>{repo.name}</td>
@@ -39,23 +46,15 @@ class Repositories extends React.Component {
                         ))}
                         </tbody>
                     </table>
-                </div>
 
-                {this.props.status === FETCH_STATUS.READY && (
-                    <div>
-                        <button onClick={() => this.props.fetchRepositories()}>Load more</button>
-                    </div>
-                )}
-                {this.props.status === FETCH_STATUS.FETCHING && (
-                    <div>
-                        <h1>Loading...</h1>
-                    </div>
-                )}
-                {this.props.status === FETCH_STATUS.NOT_FOUND && (
-                    <div>
-                        <h1>User not found</h1>
-                    </div>
-                )}
+                    {this.props.status === FETCH_STATUS.READY && (
+                        <div className="repositories_load_container">
+                            <button onClick={() => this.props.fetchRepositories()} className="repositories_load">LOAD MORE</button>
+                        </div>
+                    )}
+                    {this.props.status === FETCH_STATUS.FETCHING && <Preloader/>}
+                    {this.props.status === FETCH_STATUS.NOT_FOUND && <NotFound/>}
+                </div>
             </div>
         );
     }

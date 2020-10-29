@@ -1,0 +1,22 @@
+.network_error_container {
+    position: fixed;
+    z-index: 20;
+    border: red 2px solid;
+    background-color: rgba(255, 0, 0, 0.41);
+    bottom: 24px;
+    right: 24px;
+}
+
+.network_error_text {
+    display: inline-block;
+    margin: 12px;
+}
+
+.network_error_close {
+    border: 1px solid black;
+    background-color: rgba(118, 185, 0, 0);
+    font-size: 35px;
+    cursor: pointer;
+    margin: 0 12px 0 0;
+    outline: none;
+}

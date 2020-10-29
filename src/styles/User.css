@@ -1,0 +1,48 @@
+.user_container {
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+}
+
+.user_img {
+    max-width: 300px;
+    width: calc(100% - 30px);
+    margin: 0 15px 15px 15px;
+}
+
+.user_info_container {
+    max-width: 500px;
+    width: calc(100% - 30px);
+    padding: 0 15px;
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+}
+
+.user_name {
+    font-size: 35px;
+    margin: 0;
+    display: block;
+}
+
+.user_login {
+    font-size: 15px;
+    margin: 0;
+    color: #9aa0a6;
+    display: block;
+}
+.user_bio {
+    display: block;
+}
+
+.user_repos {
+    text-decoration: none;
+    background-color: #76b900;
+    display: inline-block;
+    border-radius: 7px;
+    color: white;
+    font-weight: 700;
+    padding: 10px;
+    width: calc(100% - 20px);
+    text-align: center;
+}
