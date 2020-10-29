@@ -29,7 +29,7 @@ class Repositories extends React.Component {
                 <NetworkError/>
 
                 <div style={{marginTop: '75px'}}>
-                    <Input label="Filter" onChange={value => this.setState({filter: value})} value={this.state.filter}/>
+                    <Input placeholder="Repositories filter" label="Filter" onChange={value => this.setState({filter: value})} value={this.state.filter}/>
                     <Checkbox onChange={value => this.setState({sortByStars: value})} value={this.state.sortByStars}/>
 
                     <table>

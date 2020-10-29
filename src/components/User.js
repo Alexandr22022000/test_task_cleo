@@ -19,10 +19,10 @@ class User extends React.Component {
     render () {
         return (
             <div>
-                <Navbar img={profile}>{this.props.login || "Search for GitHub users"}</Navbar>
+                <Navbar img={profile}>{this.props.login || "GitHub explorer"}</Navbar>
                 <NetworkError/>
                 <div style={{marginTop: '75px'}}>
-                    <Input label="Search" onChange={value => this.setState({search: value})} value={this.state.search} onSubmit={this.onClickSearch.bind(this)}/>
+                    <Input label="Search" placeholder="Search for GitHub users" onChange={value => this.setState({search: value})} value={this.state.search} onSubmit={this.onClickSearch.bind(this)}/>
                     {this.props.status === FETCH_STATUS.FETCHING && <Preloader/>}
                     {this.props.status === FETCH_STATUS.NOT_FOUND && <NotFound/>}
                     {this.props.profile && (
